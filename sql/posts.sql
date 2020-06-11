@@ -1,6 +1,8 @@
 CREATE TABLE `posts` (
 	`post_id` BIGINT NOT NULL AUTO_INCREMENT,
 	`post_user_email` TEXT NOT NULL,
+	`post_user_name` TEXT NOT NULL,
+	`post_user_pic` TEXT NOT NULL,
 	`post_text` TEXT NOT NULL,
 	`post_time` TEXT NOT NULL,
 	`post_upvotes` BIGINT NOT NULL DEFAULT '0',

@@ -1,5 +1,6 @@
 <?php 
 /* CHECKING IF USER IS LOGGED IN */
+include_once 'lib/config.php';
 session_start();
 if (!isset($_SESSION['user_email'])) {
     header('location:index.php');
@@ -9,7 +10,6 @@ if (!isset($_SESSION['user_email'])) {
 <html lang="en">
 
 <head>
-    
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/paper_img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -23,19 +23,17 @@ if (!isset($_SESSION['user_email'])) {
     <link href="assets/css/ct-paper.css" rel="stylesheet" />
     <link href="assets/css/demo.css" rel="stylesheet" />
     <link href="assets/css/examples.css" rel="stylesheet" />
-    <link href="assets/css/cards.css" rel="stylesheet"/>
+    <link href="assets/css/cards.css" rel="stylesheet" />
+    <link href="assets/css/post_card.css" rel="stylesheet" />
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-
 </head>
 
 <body>
-    <div class="wrapper">
     <?php include_once 'components/home_navbar.php';?>
-    </div>
     <br><br><br><br><br><br>
     <div class="wrapper">
         <div class="nav-tabs-navigation">
@@ -50,8 +48,15 @@ if (!isset($_SESSION['user_email'])) {
         </div>
         <div id="my-tab-content" class="tab-content text-center">
             <div class="tab-pane active" id="home">
-                <p>Here is information about home.</p>
-               
+                <!-- POST CARD BEGIN  -->
+                <section id="feed0">
+                <?php
+                $post = new Post;
+                echo $post->getPosts($_SESSION['user_email'], 0, 0);
+                ?>
+                <!-- POST CARD END  -->
+                </section>
+                <button class="btn btn-default" id="0" count="9" onclick="loadPosts(0)"><i class="fa fa-repeat"></i> Load more posts</button>
             </div>
 
             <div class="tab-pane" id="articles">
@@ -61,21 +66,20 @@ if (!isset($_SESSION['user_email'])) {
             <div class="tab-pane" id="edu">
                 <p>Here is some education.</p>
             </div>
-            
+
             <div class="tab-pane" id="phy">
                 <p>Here are your messagesss.</p>
             </div>
         </div>
     </div>
     <?php include_once 'components/home_footer.php'; ?>
-    
+
 </body>
 
 <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
 <script src="assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-
 <script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-
+<script src="assets/js/posts.js" type="text/javascript"></script>
 <!--  Plugins -->
 <script src="assets/js/ct-paper-checkbox.js"></script>
 <script src="assets/js/ct-paper-radio.js"></script>
