@@ -18,8 +18,12 @@
         public function deletePost($post_user_email, $post_id) {
             $database = new Db;
             $handle = $database->handle;
-            $query = "DELETE FROM posts WHERE post_user_email = '{$post_user_email}' AND post_id = '{$post_id}'";
-            if ($handle->query($query)) {
+            $query = "SELECT * FROM posts WHERE post_id = '{$post_id}'";
+            $result = $handle->query($query);
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            if ($row['post_user_email'] == $post_user_email || $post_user_email == ADMIN) {
+                $query = "DELETE FROM posts WHERE post_id = '{$post_id}'";
+                $handle->query($query);
                 $handle->close();
                 return 1;
             } else {
@@ -60,8 +64,8 @@
             } else {
                 $upvote_class = 'btn btn-danger';
             }
-            $post_peek = substr($post_text, 0, 200);
-            $post_read_more = substr($post_text, 200);
+            $post_peek = limit_text($post_text, 20);
+            $post_read_more = $post_text;
             $post_markup = "
             <div class='card' id='{$post_id}'>
                 <img src='{$post_author_img}' alt='AUTHOR PIC' style='width : 100px'>
@@ -76,17 +80,26 @@
                 <p class='title'>Posted at : {$post_time}</p>
                 <span id='peek{$post_id}'>{$post_peek}</span>
                 <span id='full{$post_id}' style='display : none'>{$post_read_more}</span>
-                <button class='{$upvote_class}' id='upvoteBtn{$post_id}' onclick='upvotePost({$post_id})'><i class='fa fa-arrow-up'></i> <span id='upvotes{$post_id}'>{$post_upvotes}</span></button>
+                <p><button class='{$upvote_class}' id='upvoteBtn{$post_id}' onclick='upvotePost({$post_id})'><i class='fa fa-arrow-up'></i> <span id='upvotes{$post_id}'>{$post_upvotes}</span></button></p>
                 <p id='readMore{$post_id}'><button  onclick='readMore({$post_id})'><b style='color : white'>Read more</b></button></p>
-            </div>
         ";
+        if ($post_author_email == $post_viewer) {
+            $post_markup .= "<p><button class='btn btn-danger btn-fill' id='delete{$post_id}' count='0' onclick='deletePost({$post_id})'><b style='color : white'>Delete Post</b></button></p></div>";
+        } else if ($post_viewer == ADMIN) {
+            $post_markup .= "<p><button class='btn btn-danger btn-fill' id='delete{$post_id}' count='0' onclick='deletePost({$post_id})'><b style='color : white'>Delete Post</b></button></p></div>";
+        } else {
+            $post_markup .= "</div>";
+        }
         return $post_markup . "<br><hr>";
         }
 
-        public function getPosts($user_email, $offset, $post_c) {
+        public function getPosts($user_email, $offset, $post_c, $user_posts) {
             $database = new Db;
             $handle = $database->handle;
             $query = "SELECT * FROM posts WHERE post_c = '{$post_c}' ORDER BY post_time DESC LIMIT 9 OFFSET " . $offset;
+            if ($user_posts == 1) {
+                $query = "SELECT * FROM posts WHERE post_c = '{$post_c}' AND post_user_email = '{$user_email}' ORDER BY post_time DESC LIMIT 9 OFFSET " . $offset;
+            }
             $result = $handle->query($query);
             $handle->close();
             $txt = "";

@@ -1,5 +1,6 @@
 function readMore(id) {
     $('#full' + id).css('display', 'block');
+    $('#peek' + id).css('display', 'none');
     $('#readMore' + id).css('display', 'none');
 } 
 function upvotePost(id, user_email) {
@@ -15,9 +16,9 @@ function upvotePost(id, user_email) {
     xhttps.open("GET","lib/ajaxify/upvotePost.php?&post_id="+id);
     xhttps.send();
 }
-function loadPosts(feed) {
-    $('#' + feed).prop('disabled', true);
-    var offset = parseInt($('#' + feed).attr('count'), 10);
+function loadPosts(feed, user_posts) {
+    $('#id' + String(feed)).prop('disabled', true);
+    var offset = parseInt($('#id' + String(feed)).attr('count'), 10);
     var new_offset = offset + 9;
     xhttps = new XMLHttpRequest();
       xhttps.onreadystatechange = function()
@@ -25,16 +26,34 @@ function loadPosts(feed) {
         if (this.status == 200 && this.readyState == 4)
         {
             if (this.responseText.length == 0) {
-                $('#' + feed).attr('class', 'btn btn-danger');
-                $('#' + feed).html("That's all for now <i class='fa fa-frown-o'></i>");
-                $('#' + feed).prop('disabled', false);
+                $('#id' + String(feed)).attr('class', 'btn btn-danger');
+                $('#id' + String(feed)).html("That's all for now <i class='fa fa-frown-o'></i>");
+                $('#id' + String(feed)).prop('disabled', false);
             } else {
-                $('#feed' + feed).append(this.responseText);
-                var offset = $('#' + feed).attr('count', new_offset);
-                $('#' + feed).prop('disabled', false);
+                $('#feed' + String(feed)).append(this.responseText);
+                var offset = $('#id' + String(feed)).attr('count', new_offset);
+                $('#id' + String(feed)).prop('disabled', false);
             }
         }
       }
-    xhttps.open("GET","lib/ajaxify/loadPosts.php?feed="+feed+"&offset="+offset);
+    xhttps.open("GET","lib/ajaxify/loadPosts.php?feed="+feed+"&offset="+offset+"&user_posts="+user_posts);
     xhttps.send();
+}
+function deletePost(id) {
+    if ($('#delete' + id).attr('count') == 0) {
+        $('#delete' + id).attr('count', 1);
+        $('#delete' + id).html('Press again to confirm delete');
+    } else {
+        $('#' + id).css('display', 'none');
+        xhttps = new XMLHttpRequest();
+    //     xhttps.onreadystatechange = function()
+    //   {
+    //     if (this.status == 200 && this.readyState == 4)
+    //     {
+    //         alert(this.responseText);
+    //     }
+    //   }
+        xhttps.open("GET","lib/ajaxify/delete_post.php?&post_id="+id);
+        xhttps.send();
+    }
 }
