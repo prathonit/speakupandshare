@@ -4,5 +4,5 @@ CREATE TABLE `users` (
 	`password` TEXT NOT NULL,
 	`bio` TEXT,
 	`pic` TEXT,
-	PRIMARY KEY (`user_email`, `user_name`)
+	PRIMARY KEY (`user_email`)
 ) ENGINE=InnoDB;

@@ -1,5 +1,8 @@
 <?php 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_POST['password'] != $_POST['cpassword']) {
+            header('location:register.php?q=password');
+        }
         include_once 'lib/config.php';
         if (isset($_POST['user_email']) && isset($_POST['user_name']) && isset($_POST['password'])) {
             $user_email = sanitize_input($_POST['user_email']);
@@ -101,6 +104,18 @@
                                         </div>
                                         ';
                                     }
+                                    if (isset($_GET['q']) && $_GET['q'] == 'password') {
+                                        echo 
+                                        '
+                                        <div class="form-group has-error has-feedback">
+
+                                        <input type="text" value="Passwords do not match:(" class="form-control"/>
+                                
+                                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                
+                                        </div>
+                                        ';
+                                    }
                                 ?>
                                 <form class="register-form" method="POST" action="register.php">
                                     <label>Username</label>
@@ -113,7 +128,7 @@
                                     <input type="password" name="password" class="form-control" placeholder="Password" required>
 
                                     <label>Confirm Password</label>
-                                    <input type="password"  class="form-control" placeholder="Repeat Password" required>
+                                    <input type="password"  name="cpassword" class="form-control" placeholder="Repeat Password" required>
                                     <button class="btn btn-danger btn-block">Register</button>
                                 </form>
                                 <div class="forgot">
