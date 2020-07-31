@@ -4,6 +4,9 @@
     margin: auto;
     text-align: center;
 }
+.post_c {
+    font-size: 20px;
+}
 
 .title {
     color: grey;

@@ -94,7 +94,7 @@
                                         '
                                         <div class="form-group has-error has-feedback">
 
-                                        <input type="text" value="Email taken :(" class="form-control"/>
+                                        <input type="text" value="Email/Username taken :(" class="form-control"/>
                                 
                                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 

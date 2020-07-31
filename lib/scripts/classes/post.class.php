@@ -70,13 +70,15 @@
             <div class='card' id='{$post_id}'>
                 <img src='{$post_author_img}' alt='AUTHOR PIC' style='width : 100px'>
                 <div class='row'>
-                    <div class='col-sm-6'>
+                    <center>
+                    <div class='col-sm-12'>
                     <h5><b>Posted By : {$post_author_name}</b></h5>
                     </div>
+                    </center>
                 </div>
                 <p class='title'>Posted at : {$post_time}</p>
-                <span id='peek{$post_id}'>{$post_peek}</span>
-                <span id='full{$post_id}' style='display : none'>{$post_read_more}</span>
+                <span id='peek{$post_id}' class='post_c'>{$post_peek}</span>
+                <span id='full{$post_id}' class='post_c' style='display : none'>{$post_read_more}</span>
                 <p><button class='{$upvote_class}' id='upvoteBtn{$post_id}' onclick='upvotePost({$post_id})'><i class='fa fa-arrow-up'></i> <span id='upvotes{$post_id}'>{$post_upvotes}</span></button></p>
                 <p id='readMore{$post_id}'><button  onclick='readMore({$post_id})'><b style='color : white'>Read more</b></button></p>
         ";
