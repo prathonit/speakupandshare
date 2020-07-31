@@ -73,9 +73,6 @@
                     <div class='col-sm-6'>
                     <h5><b>Posted By : {$post_author_name}</b></h5>
                     </div>
-                    <div class='col-sm-6'>
-                    <h5><i>Email : {$post_author_email}</i></h5>
-                    </div>
                 </div>
                 <p class='title'>Posted at : {$post_time}</p>
                 <span id='peek{$post_id}'>{$post_peek}</span>

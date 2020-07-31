@@ -113,7 +113,7 @@
                                 ?>
                                 <form class="register-form" method="POST" action="index.php">
                                     <label>Email</label>
-                                    <input type="text" name="user_email" class="form-control" placeholder="Email" required>
+                                    <input type="email" name="user_email" class="form-control" placeholder="Email" required>
 
                                     <label>Password</label>
                                     <input type="password" name="password" class="form-control" placeholder="Password" required>
